@@ -1,0 +1,14 @@
+#champion-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.champion {
+    flex: 1 0 10%;
+    width: 10%;
+}
+
+#charts{
+    height: 400px;
+    width: 500px;
+}

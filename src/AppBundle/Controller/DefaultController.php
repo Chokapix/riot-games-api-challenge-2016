@@ -14,7 +14,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('AppBundle:Default:index.html.twig');
+        return $this->render('default/index.html.twig');
     }
 
     /**
@@ -34,7 +34,8 @@ class DefaultController extends Controller
 
         $summoner = $summonerApi->info($summonerName);
         $masteryList = $championMastery->champions($summoner);
-        $champions = json_decode(file_get_contents("data/en_GB/champion.json"), true);
+        $championsJson = file_get_contents("data/en_GB/champion.json");
+        $champions = json_decode($championsJson, true);
         $champions = $champions['data'];
 
         $aggs = array(
@@ -42,7 +43,16 @@ class DefaultController extends Controller
             "totalLevels" => 0,
         );
 
+        $masteryListJson = [];
+
         foreach ($masteryList as $mastery) {
+            foreach ($champions as $name => $champion) {
+                if ($champion['key'] == $mastery->championId) {
+                    foreach (["championPoints", "championLevel", "championPointsSinceLastLevel", "championPointsUntilNextLevel", "chestGranted", "highestGrade"] as $property) {
+                        $masteryListJson[$champion['name']][$property] = $mastery->{$property};
+                    }
+                }
+            }
             $aggs["totalPoints"] += $mastery->championPoints;
             $aggs["totalLevels"] += $mastery->championLevel;
         }
@@ -53,7 +63,9 @@ class DefaultController extends Controller
                 'region' => $region,
                 'summonerName' => $summonerName,
                 'champions' => $champions,
+                'championsJson' => $championsJson,
                 'aggs' => $aggs,
+                'masteryListJson' => json_encode($masteryListJson),
                 'masteryList' => $masteryList,
             )
         );
