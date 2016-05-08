@@ -31,43 +31,59 @@ class DefaultController extends Controller
         $api->setRegion($region);
         $summonerApi = $api->summoner();
         $championMastery = $api->ChampionMastery();
+        
+        try{
+            $summoner = $summonerApi->info($summonerName);
+            $masteryList = $championMastery->champions($summoner);
+            $championsJson = file_get_contents("data/en_GB/champion.json");
+            $champions = json_decode($championsJson, true);
+            $champions = $champions['data'];
 
-        $summoner = $summonerApi->info($summonerName);
-        $masteryList = $championMastery->champions($summoner);
-        $championsJson = file_get_contents("data/en_GB/champion.json");
-        $champions = json_decode($championsJson, true);
-        $champions = $champions['data'];
+            $aggs = array(
+                "totalPoints" => 0,
+                "totalLevels" => 0,
+                "level5" => 0,
+                "totalS" => 0,
+            );
 
-        $aggs = array(
-            "totalPoints" => 0,
-            "totalLevels" => 0,
-        );
+            $masteryListJson = [];
 
-        $masteryListJson = [];
-
-        foreach ($masteryList as $mastery) {
-            foreach ($champions as $name => $champion) {
-                if ($champion['key'] == $mastery->championId) {
-                    foreach (["championPoints", "championLevel", "championPointsSinceLastLevel", "championPointsUntilNextLevel", "chestGranted", "highestGrade"] as $property) {
-                        $masteryListJson[$champion['name']][$property] = $mastery->{$property};
+            foreach ($masteryList as $mastery) {
+                foreach ($champions as $name => $champion) {
+                    if ($champion['key'] == $mastery->championId) {
+                        foreach (["championPoints", "championLevel", "championPointsSinceLastLevel", "championPointsUntilNextLevel", "chestGranted", "highestGrade"] as $property) {
+                            $masteryListJson[$champion['name']][$property] = $mastery->{$property};
+                        }
                     }
                 }
+                $aggs["totalPoints"] += $mastery->championPoints;
+                $aggs["totalLevels"] += $mastery->championLevel;
+                $aggs["level5"] += $mastery->championLevel == 5 ? 1 : 0;
+                $aggs["totalS"] += substr($mastery->highestGrade, 0, 1) === "S" ? 1 : 0;
             }
-            $aggs["totalPoints"] += $mastery->championPoints;
-            $aggs["totalLevels"] += $mastery->championLevel;
-        }
 
-        return $this->render(
-            'default/result.html.twig',
-            array(
-                'region' => $region,
-                'summonerName' => $summonerName,
-                'champions' => $champions,
-                'championsJson' => $championsJson,
-                'aggs' => $aggs,
-                'masteryListJson' => json_encode($masteryListJson),
-                'masteryList' => $masteryList,
-            )
-        );
+            return $this->render(
+                'default/result.html.twig',
+                array(
+                    'region' => $region,
+                    'summonerName' => $summonerName,
+                    'champions' => $champions,
+                    'championsJson' => $championsJson,
+                    'aggs' => $aggs,
+                    'masteryListJson' => json_encode($masteryListJson),
+                    'masteryList' => $masteryList,
+                )
+            );
+        } catch (\Exception $e) {
+            return $this->render(
+                'default/error.html.twig',
+                array(
+                    'region' => $region,
+                    'summonerName' => $summonerName,
+                    'exception' => $e
+                )
+            );
+        }
+        
     }
 }

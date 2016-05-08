@@ -1,10 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ parent() }} - {{ summonerName }}{% endblock %}
+
 {% block body %}
 	<div id="stats">
-		<p>Total points : <span class="stats-result">{{ aggs.totalPoints }}</span></p>
-		<p>Total levels : <span class="stats-result">{{ aggs.totalLevels }}</span></p>
+		<p>Total points : <span id="result-points" class="stats-result">{{ aggs.totalPoints }}</span></p>
+		<p>Total levels : <span id="result-levels" class="stats-result">{{ aggs.totalLevels }}</span></p>
 		<p>Played champions : <span class="stats-result">{{ masteryList|length }} / {{ champions|length }}</span></p>
+		<p>Level 5 champions : <span class="stats-result">{{ aggs.level5 }}</span></p>
+		<p>Grade S : <span class="stats-result">{{ aggs.totalS }}</span></p>
+	</div>
+	<div id="share">
+		<a onclick="TWshare();" id="share-tw"><i class="fa fa-twitter"></i>Share on Twitter</a>
+		<a onclick="FBshare();" id="share-fb"><i class="fa fa-facebook"></i>Share on Facebook</a>
 	</div>
 	{#<div id="charts">#}
 		{#<p class="charts-title">Number of points earned by role :</p>#}

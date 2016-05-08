@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="error">
+	{% if exception.code == 404 %}
+		<p>This summoner name doesn't exist</p>
+	{% else %}
+		<p>Server error</p>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

@@ -15,7 +15,7 @@ $(document).ready(function () {
 
     $('.champion-filter[data-filter=championPoints]').click();
 
-    var rolesAggs = {
+    /*var rolesAggs = {
         "ADC" : 0,
         "Support" : 0,
         "Jungle" : 0,
@@ -53,9 +53,14 @@ $(document).ready(function () {
     var myDoughnutChart = new Chart(ctx, {
         type: 'doughnut',
         data: data
-    });
+    });*/
 });
 
+/**
+ * Sort champions by specified attr and order
+ * @param attr
+ * @param order
+ */
 function sortChampions(attr, order){
     attr = attr.toLowerCase();
     order = order == "desc" ? -1 : 1;
@@ -66,7 +71,7 @@ function sortChampions(attr, order){
     }));
 }
 
-$(document).on('change', '#input-analytics', function (e) {
+$(document).on('change keyup', '#input-analytics', function (e) {
     e.preventDefault();
     updateLink();
 });
@@ -78,6 +83,9 @@ $(document).on('click', '#server-list > li', function (e) {
     updateLink();
 });
 
+/**
+ * Update form link
+ */
 function updateLink(){
     var server = $('#server-list').find('li.active').text();
     var summonerName = $('#input-analytics').val();
@@ -117,4 +125,21 @@ function getHighestGradeScore(grade){
         }
     }
     return score;
+}
+
+/**
+ * Share on Facebook
+ */
+function FBshare() {
+    var w =  window.open('https://www.facebook.com/sharer/sharer.php?u='+window.location.href+'', 'facebook_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');
+    return false
+}
+
+/**
+ * Share on Twitter
+ */
+function TWshare() {
+    var text = "I earned a total of " + $('#result-points').text() + " mastery points and " + $('#result-levels').text() + " mastery level in League of Legends !";
+    var w =  window.open('https://twitter.com/intent/tweet?url='+window.location.href+'&text='+text , 'twitter_share', 'height=320, width=640, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no');
+    return false
 }

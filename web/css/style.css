@@ -34,8 +34,12 @@ body{
 
 #filters {
     margin-bottom: 20px;
-    border-top: 1px solid #ddd;
     padding-top: 15px;
+}
+
+#share{
+    text-align: center;
+    margin-top: 10px;
 }
 
 #champion-container {
@@ -243,13 +247,48 @@ p.charts-title {
 
 #stats p{
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     flex:1;
     text-align: center;
     margin-bottom: 0;
 }
 
 .stats-result{
-    font-size: 24px;
+    font-size: 20px;
     color: #d6a33c;
+}
+
+#share-tw {
+    background-color: #55acee;
+    color: #FFF;
+    text-align: center;
+    padding: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#share-fb {
+    background-color: #3b5998;
+    color: #FFF;
+    text-align: center;
+    padding: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#share-fb:hover {
+    background-color: #2a4378;
+}
+
+#share-tw:hover {
+    background-color: #3c8cc8;
+}
+
+a > i {
+    margin-right: 5px;
+}
+
+#error {
+    margin-top: 20px;
+    text-align: center;
 }
