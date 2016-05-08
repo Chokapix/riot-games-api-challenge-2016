@@ -4,8 +4,16 @@ $(document).ready(function () {
 
     $('.champion-filter').click(function (e) {
         e.preventDefault();
+        $('.champion-filter').removeClass('active');
+        $(this).addClass('active');
         sortChampions($(this).data("filter"), $(this).data("order"));
     });
+
+    $.each($('.champion'), function (i, v) {
+        $(v).attr('data-highestgrade', getHighestGradeScore($(v).attr('data-highestgrade')));
+    });
+
+    $('.champion-filter[data-filter=championPoints]').click();
 
     var rolesAggs = {
         "ADC" : 0,
@@ -16,9 +24,11 @@ $(document).ready(function () {
     };
     var rolesLabels = ["ADC", "Support", "Jungle", "Middle", "Top"];
 
-    $.each(masteryList, function (i,v) {
-        rolesAggs[roles[i]] += v.championPoints;
-    });
+    if(masteryList !== undefined){
+        $.each(masteryList, function (i,v) {
+            rolesAggs[roles[i]] += v.championPoints;
+        });
+    }
 
     var datas = [];
     for (var i = 0; i < rolesLabels.length; i++) {
@@ -54,4 +64,57 @@ function sortChampions(attr, order){
         var contentB = $(b).data(attr);
         return order * ((contentA > contentB) ? 1 : (contentA < contentB) ? -1 : 0);
     }));
+}
+
+$(document).on('change', '#input-analytics', function (e) {
+    e.preventDefault();
+    updateLink();
+});
+
+$(document).on('click', '#server-list > li', function (e) {
+    e.preventDefault();
+    $(this).siblings().removeClass('active');
+    $(this).addClass('active');
+    updateLink();
+});
+
+function updateLink(){
+    var server = $('#server-list').find('li.active').text();
+    var summonerName = $('#input-analytics').val();
+    var link = "/" + server + '/' + summonerName;
+    $('#btn-link').attr('href', link);
+}
+
+function getHighestGradeScore(grade){
+    if(grade === undefined){
+        return 0;
+    }
+    var score = 0;
+    if(grade[0] !== undefined){
+        switch (grade[0]) {
+            case 'S':
+                score += 40;
+                break;
+            case 'A':
+                score += 30;
+                break;
+            case 'B':
+                score += 20;
+                break;
+            case 'C':
+                score += 10;
+                break;
+        }
+    }
+    if(grade[1] !== undefined){
+        switch (grade[1]) {
+            case '+':
+                score ++;
+                break;
+            case '-':
+                score --;
+                break;
+        }
+    }
+    return score;
 }

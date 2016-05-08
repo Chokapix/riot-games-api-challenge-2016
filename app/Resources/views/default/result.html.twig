@@ -2,29 +2,49 @@
 
 {% block body %}
 	<div id="stats">
-		<p>Total points : {{ aggs.totalPoints }}</p>
-		<p>Total levels : {{ aggs.totalLevels }}</p>
-		<p>Champions joués : {{ masteryList|length }} / {{ champions|length }}</p>
+		<p>Total points : <span class="stats-result">{{ aggs.totalPoints }}</span></p>
+		<p>Total levels : <span class="stats-result">{{ aggs.totalLevels }}</span></p>
+		<p>Played champions : <span class="stats-result">{{ masteryList|length }} / {{ champions|length }}</span></p>
 	</div>
-	<div id="charts">
-		<canvas id="roles-pie" width="500" height="400"></canvas>
-	</div>
+	{#<div id="charts">#}
+		{#<p class="charts-title">Number of points earned by role :</p>#}
+		{#<p class="charts-help">According to the primary role of champion , the results may not be accurate depending on how you play</p>#}
+		{#<canvas id="roles-pie" width="500" height="300"></canvas>#}
+	{#</div>#}
 	<div id="filters">
-		<p>Filtres :</p>
-		<a class="champion-filter" data-order="asc" data-filter="champion" href="#">Alphabétique</a>
+		<p>Filters :</p>
+		<a class="champion-filter" data-order="asc" data-filter="champion" href="#">Alphabetical</a>
 		<a class="champion-filter" data-order="desc" data-filter="championPoints" href="#">Points</a>
 		<a class="champion-filter" data-order="desc" data-filter="championLevel" href="#">Level</a>
-		<a class="champion-filter" data-order="desc" data-filter="highestGrade" href="#">Plus haut grade</a>
-		<a class="champion-filter" data-order="desc" data-filter="chestGranted" href="#">Coffre acquis</a>
+		<a class="champion-filter" data-order="desc" data-filter="highestGrade" href="#">Highest grade</a>
+		<a class="champion-filter" data-order="desc" data-filter="chestGranted" href="#">Chest granted</a>
 	</div>
 	<div id="champion-container">
 		{% for champion in champions %}
 			{% set mastery = masteryList.getChampion(champion.key) %}
 			<div class="champion" data-champion="{{ champion.name }}"{{ block('data_attributes') }} >
-				<img src="http://ddragon.leagueoflegends.com/cdn/6.9.1/img/champion/{{ champion.image.full }}" alt="">
+				<div class="champion-img-container">
+					<img class="img-responsive" src="http://ddragon.leagueoflegends.com/cdn/6.9.1/img/champion/{{ champion.image.full }}" alt="">
+					{% if mastery is not null %}
+						<div class="champion-overlay">
+							{% if mastery.highestGrade is defined %}
+								<div class="mastery-highest">{{ mastery.highestGrade }}</div>
+							{% endif %}
+							{% if mastery.chestGranted %}
+								<div class="mastery-chest">
+									<img width="20" height="20" src="{{ asset('img/chest.png') }}" alt="">
+								</div>
+							{% endif %}
+						</div>
+					{% endif %}
+				</div>
 				{% if mastery is not null %}
-					{{ mastery.championPoints }}
-					{{ mastery.championLevel }}
+					<div class="mastery-level">
+						<img width="50" height="50" src="{{ asset('img/mastery/lvl_' ~ mastery.championLevel ~ '.png') }}" alt="">
+					</div>
+					<div class="mastery-score">
+						{{ mastery.championPoints }}
+					</div>
 				{% endif %}
 			</div>
 		{% endfor %}

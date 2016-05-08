@@ -9,13 +9,49 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
-<div class="container">
+<div id="header">
+    <div class="container align-center">
+        League of legends champion masteries
+    </div>
+</div>
+<div class="container container-header">
+    <div id="finder">
+        <div class="col-xs-9 np">
+            <input id="input-analytics" type="text" placeholder="Summoner name" {% if summonerName is defined %}value="{{ summonerName }}"{% endif %}>
+        </div>
+        <div class="col-xs-3 np">
+            <a id="btn-link" href="#" class="purple-btn"><i class="fa fa-angle-right"></i>Search</a>
+        </div>
+        <div id="finder-server" class="col-xs-12 np upper bg-grey fill">
+            <div class="col-xs-4 np align-center">
+                <p class="mb0">Server :</p>
+            </div>
+            <div class="col-xs-8 np">
+                <ul id="server-list">
+                    <li class="active">EUW</li>
+                    <li>EUNE</li>
+                    <li>NA</li>
+                    <li>BR</li>
+                    <li>TR</li>
+                    <li>RU</li>
+                    <li>LAN</li>
+                    <li>LAS</li>
+                    <li>OCE</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container container-body">
     {% block body %}{% endblock %}
+
 </div>
 <script src="https://code.jquery.com/jquery-1.12.3.min.js" integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.1/Chart.bundle.min.js"></script>
+<script src="http://instantclick.io/v3.1.0/instantclick.min.js" data-no-instant></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script data-no-instant>InstantClick.init();</script>
 {% block javascripts %}{% endblock %}
 </body>
 </html>
