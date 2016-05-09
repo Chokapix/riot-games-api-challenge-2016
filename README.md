@@ -1,6 +1,6 @@
 Demo
 ====
-A running demo is available [here](http://thomas-choquet.fr:8888) (low-cost server, may crash if too many concurrent request) 
+A running demo is available [here](http://thomas-choquet.fr:8888/EUW/Hyn%20Chokapix) (low-cost server, may crash if too many concurrent request) 
 Requirements
 ============
 * PHP > 5.5

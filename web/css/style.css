@@ -267,19 +267,6 @@ p.charts-title {
     cursor: pointer;
 }
 
-#share-fb {
-    background-color: #3b5998;
-    color: #FFF;
-    text-align: center;
-    padding: 5px;
-    display: inline-block;
-    cursor: pointer;
-}
-
-#share-fb:hover {
-    background-color: #2a4378;
-}
-
 #share-tw:hover {
     background-color: #3c8cc8;
 }
@@ -288,7 +275,7 @@ a > i {
     margin-right: 5px;
 }
 
-#error {
+#error, #index {
     margin-top: 20px;
     text-align: center;
 }

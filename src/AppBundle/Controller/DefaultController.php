@@ -49,13 +49,6 @@ class DefaultController extends Controller
             $masteryListJson = [];
 
             foreach ($masteryList as $mastery) {
-                foreach ($champions as $name => $champion) {
-                    if ($champion['key'] == $mastery->championId) {
-                        foreach (["championPoints", "championLevel", "championPointsSinceLastLevel", "championPointsUntilNextLevel", "chestGranted", "highestGrade"] as $property) {
-                            $masteryListJson[$champion['name']][$property] = $mastery->{$property};
-                        }
-                    }
-                }
                 $aggs["totalPoints"] += $mastery->championPoints;
                 $aggs["totalLevels"] += $mastery->championLevel;
                 $aggs["level5"] += $mastery->championLevel == 5 ? 1 : 0;
@@ -68,9 +61,7 @@ class DefaultController extends Controller
                     'region' => $region,
                     'summonerName' => $summonerName,
                     'champions' => $champions,
-                    'championsJson' => $championsJson,
                     'aggs' => $aggs,
-                    'masteryListJson' => json_encode($masteryListJson),
                     'masteryList' => $masteryList,
                 )
             );

@@ -12,13 +12,7 @@
 	</div>
 	<div id="share">
 		<a onclick="TWshare();" id="share-tw"><i class="fa fa-twitter"></i>Share on Twitter</a>
-		<a onclick="FBshare();" id="share-fb"><i class="fa fa-facebook"></i>Share on Facebook</a>
 	</div>
-	{#<div id="charts">#}
-		{#<p class="charts-title">Number of points earned by role :</p>#}
-		{#<p class="charts-help">According to the primary role of champion , the results may not be accurate depending on how you play</p>#}
-		{#<canvas id="roles-pie" width="500" height="300"></canvas>#}
-	{#</div>#}
 	<div id="filters">
 		<p>Filters :</p>
 		<a class="champion-filter" data-order="asc" data-filter="champion" href="#">Alphabetical</a>
@@ -57,19 +51,6 @@
 			</div>
 		{% endfor %}
 	</div>
-{% endblock %}
-
-{% block stylesheets %}
-
-{% endblock %}
-
-{% block javascripts %}
-
-	<script>
-		var champions = JSON.parse("{{ championsJson|escape('js') }}");
-		var masteryList = JSON.parse("{{ masteryListJson|escape('js') }}");
-	</script>
-
 {% endblock %}
 
 {% block data_attributes %}
